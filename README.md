@@ -1,6 +1,6 @@
 # dockerfile-machinelearning
 
-Dockerfile for studying Machine Learning.
+Dockerfile for studying/analyzing with Machine Learning.
 
 ## Available packages
 
@@ -11,8 +11,9 @@ Dockerfile for studying Machine Learning.
 ## Usage
 
 ### Launch IPython Notebook on current directory
+
 ```
-$ docker run --rm -v $(pwd):/workdig -p 8888:8888 -it uetchy/ml ipynb
+$ docker run --rm -v $(pwd):/workdir -p 8888:8888 -it uetchy/ml ipynb
 $ open http://$(docker-machine ip <your machine name>):8888
 ```
 
