@@ -13,14 +13,14 @@ Dockerfile for studying/analyzing with Machine Learning.
 ### Launch IPython Notebook on current directory
 
 ```
-$ docker run --rm -v $(pwd):/workdir -p 8888:8888 -it uetchy/ml ipynb
-$ open http://$(docker-machine ip <your machine name>):8888
+$ docker run -v $(pwd):/workdir -p 80:8888 -it uetchy/ml ipynb
+$ open http://$(docker-machine ip <your machine name>)
 ```
 
 ### Run python REPL
 
 ```
-$ docker run --rm -it uetchy/ml python
+$ docker run -it uetchy/ml python
 ```
 
 ## Get the image from DockerHub
