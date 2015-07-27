@@ -6,7 +6,9 @@ Dockerfile for studying/analyzing with Machine Learning.
 
 - Python 3.4.0 with miniconda3 on pyenv
 - IPython Notebook
-- numpy, scipy, matplotlib, scikit-learn, chainer, nltk, gensim
+- numpy, scipy, matplotlib, nltk, gensim
+- scikit-learn, Theano, Pylearn2, chainer
+- [Caffe](https://registry.hub.docker.com/u/tleyden5iwx/caffe-cpu-master/)
 
 ## Usage
 
@@ -16,6 +18,9 @@ Dockerfile for studying/analyzing with Machine Learning.
 $ docker run -v $(pwd):/workdir -p 80:8888 -it uetchy/ml ipynb
 $ open http://$(docker-machine ip <your machine name>)
 ```
+
+> Docker Remote API users beware:
+>   Volume mounting is not available on Docker connected by Remote API
 
 ### Run python REPL
 
