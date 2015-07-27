@@ -2,8 +2,8 @@
 set -e
 
 case "$1" in
-  py)
-    python
+  "")
+    bash
     ;;
   ipynb)
     ipython notebook --no-browser --ip='*'
