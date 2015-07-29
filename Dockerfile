@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
   wget \
   curl \
   git \
+  vim \
   libopenblas-dev \
   libatlas3gf-base
 
