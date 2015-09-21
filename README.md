@@ -18,10 +18,10 @@ Dockerfile for studying/analyzing with Machine Learning.
 $ docker pull uetchy/machinelearning
 ```
 
-### Launch IPython Notebook on current directory
+### Launch Jupyter Notebook on current directory
 
 ```
-$ docker run -v $(pwd):/workdir -p 80:8888 -it uetchy/machinelearning ipynb
+$ docker run -v $(pwd):/workdir -p 80:8888 -it uetchy/machinelearning jupyter
 $ open http://$(docker-machine ip <your machine name>)
 ```
 
@@ -31,5 +31,5 @@ $ open http://$(docker-machine ip <your machine name>)
 ### Run python REPL
 
 ```
-$ docker run -it uetchy/machinelearning python
+$ docker run -it uetchy/machinelearning jupyter
 ```

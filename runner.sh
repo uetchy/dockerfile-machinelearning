@@ -5,8 +5,8 @@ case "$1" in
   "")
     bash
     ;;
-  ipynb)
-    ipython notebook --no-browser --ip='*'
+  jupyter)
+    jupyter notebook --no-browser --ip='*'
     ;;
   *)
     $@

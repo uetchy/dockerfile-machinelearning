@@ -27,8 +27,7 @@ RUN conda install -y \
   numpy \
   scipy \
   matplotlib \
-  ipython \
-  ipython-notebook \
+  jupyter \
   scikit-learn \
   nltk \
   gensim
