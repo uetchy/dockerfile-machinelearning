@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER Yasuaki Uechi <http://randompaper.co>
+MAINTAINER Yasuaki Uechi (http://randompaper.co)
 
 ENV HOME /root
 ENV PYENV_ROOT $HOME/.pyenv
@@ -10,16 +10,17 @@ ENV PATH $PYLEARN2_ROOT/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 # Install dependencies
 RUN apt-get update && apt-get install -y \
   build-essential \
-  wget \
   curl \
   git \
   libopenblas-dev \
   libatlas3gf-base
 
+RUN curl -sL https://deb.nodesource.com/setup | bash -
+
 # Install python
-RUN git clone git://github.com/yyuu/pyenv.git $HOME/.pyenv
-RUN pyenv install miniconda3-3.10.1
-RUN pyenv global miniconda3-3.10.1
+RUN git clone git://github.com/yyuu/pyenv.git $PYENV_ROOT
+RUN pyenv install miniconda3-3.16.0
+RUN pyenv global miniconda3-3.16.0
 
 # Install ML components
 RUN conda update --all -y
