@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
   curl \
   git \
   vim \
+  pkg-config \
   libreadline-dev \
   libssl-dev \
   libbz2-dev \
@@ -30,12 +31,18 @@ RUN pyenv global 3.4.3
 # Install python components
 RUN pip install -U pip
 RUN pip install -U Cython
+RUN apt-get install -y \
+  libfreetype6-dev \
+  libpng12-dev
+  
 RUN pip install -U \
   numpy \
   scipy \
   matplotlib \
   h5py \
   jupyter \
+
+RUN pip install -U \
   scikit-learn \
   scikit-image \
   nltk \
