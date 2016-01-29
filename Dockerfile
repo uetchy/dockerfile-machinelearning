@@ -4,6 +4,7 @@ MAINTAINER Yasuaki Uechi (http://randompaper.co)
 ENV HOME /root
 ENV PYENV_ROOT $HOME/.pyenv
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+ENV LC_ALL en_US.UTF-8
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -19,7 +20,10 @@ RUN apt-get update && apt-get install -y \
   libatlas-dev \
   liblapack-dev \
   libhdf5-dev \
-  imagemagick
+  imagemagick \
+  libfreetype6-dev \
+  libpng12-dev \
+  libgfortran-4.8-dev
 
 RUN curl -sL https://deb.nodesource.com/setup | bash -
 
@@ -31,16 +35,13 @@ RUN pyenv global 3.4.3
 # Install python components
 RUN pip install -U pip
 RUN pip install -U Cython
-RUN apt-get install -y \
-  libfreetype6-dev \
-  libpng12-dev
-  
+
 RUN pip install -U \
   numpy \
   scipy \
   matplotlib \
   h5py \
-  jupyter \
+  jupyter
 
 RUN pip install -U \
   scikit-learn \
