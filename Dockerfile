@@ -4,6 +4,9 @@ MAINTAINER Yasuaki Uechi (http://randompaper.co)
 ENV HOME /root
 ENV PYENV_ROOT $HOME/.pyenv
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN locale-gen "en_US.UTF-8" && dpkg-reconfigure locales
 ENV LC_ALL en_US.UTF-8
 
 # Install dependencies
@@ -23,7 +26,7 @@ RUN apt-get update && apt-get install -y \
   imagemagick \
   libfreetype6-dev \
   libpng12-dev \
-  libgfortran-4.8-dev
+  gfortran
 
 RUN curl -sL https://deb.nodesource.com/setup | bash -
 
