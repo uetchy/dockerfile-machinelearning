@@ -1,34 +1,43 @@
 # dockerfile-machinelearning
 
-Dockerfile for studying/analyzing with Machine Learning.
+A Dockerfile consist of major machine learning libraries, for students and researchers.
 
 ## Features
 
-- Python3.5.1 on Anaconda3
-- NVIDIA GPU support (CUDA 7.5 + cuDNN 4)
+- Ubuntu 16.04
+- Python 3.6 on Miniconda3
+- GPU accelerated (CUDA 8.0 + cuDNN 5)
 
 ### General
 
-- Jupyter Notebook
-- numpy
-- scipy
-- matplotlib
-- nltk
-- gensim
+- numpy, scipy, scikit-learn, ...
+- Jupyter
+- HDF5
+- OpenCV 3
+- ImageMagick
+- ...
 
-### Machine Learning
+### Deep Learning
 
 - TensorFlow
 - Theano
 - Keras
-- Lasagne
+- PyTorch
 - Chainer
 - Torch7
-- scikit-learn
+- Caffe
+- Caffe2
 
-## Usage
+## Install
 
-### Pull docker image from [DockerHub](https://registry.hub.docker.com/u/uetchy/machinelearning/)
+### System Requirements
+
+- Docker
+- CUDA-enabled GPUs
+- CUDA Toolkit
+- nvidia-docker
+
+### Pull the docker image from [DockerHub](https://registry.hub.docker.com/u/uetchy/machinelearning/)
 
 ```
 $ docker pull uetchy/machinelearning
@@ -43,7 +52,7 @@ $ open http://$(docker-machine ip default)
 
 `default` is a Docker Machine name. you would replace with whatever you want.
 
-> Docker Remote API users beware: Volume mounting is not available for Docker connected from Remote API
+> Docker Remote API users beware: Volume mounting is not available which is connected from Remote API
 
 ### Run Python REPL
 
@@ -66,5 +75,6 @@ $ ls
 
 ## Alternative Docker images
 
-- [Caffe](https://github.com/tleyden/docker/tree/master/caffe)
-- [TensorFlow](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/g3doc/get_started/os_setup.md#docker-installation)
+- [Caffe](https://github.com/BVLC/caffe/tree/master/docker)
+- [Caffe2](https://caffe2.ai/docs/getting-started.html?platform=ubuntu&configuration=docker)
+- [TensorFlow](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/README.md)
