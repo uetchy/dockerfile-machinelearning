@@ -6,7 +6,7 @@ case "$1" in
     bash
     ;;
   jupyter)
-    jupyter notebook --no-browser --ip='*'
+    jupyter notebook --no-browser --allow-root --ip='*'
     ;;
   *)
     $@
