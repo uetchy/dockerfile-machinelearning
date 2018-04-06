@@ -8,7 +8,7 @@ ENV CUDA_HOME /usr/local/cuda
 # System dependencies
 RUN apt-get update
 RUN apt-get install -y \
-    build-essential curl wget git cmake pkg-config unzip libgtk2.0-dev \
+    build-essential curl wget git cmake vim pkg-config unzip libgtk2.0-dev \
     imagemagick graphviz > /dev/null
 # libgtk2.0-dev -> OpenCV
 
@@ -35,14 +35,52 @@ RUN curl -Ls https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.
 RUN conda install -y bzip2 glib readline mkl openblas numpy scipy hdf5 \
     pillow matplotlib cython pandas gensim protobuf \
     lmdb leveldb boost glog gflags jupyter jupyterlab
-RUN pip install pydot_ng nnpack h5py scikit-learn scikit-image
+RUN pip install pydot_ng nnpack h5py scikit-learn scikit-image hyperdash
 
 # OpenCV
 RUN conda install opencv3 -c menpo -y
 
 # TensorFlow
-RUN git clone --depth 1 https://github.com/tensorflow/tensorflow.git /usr/src/tensorflow && \
-    pip install tensorflow-gpu
+## install Bazel
+RUN apt-get install openjdk-8-jdk -y && \
+    echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" >> /etc/apt/sources.list.d/bazel.list && \
+    curl https://bazel.build/bazel-release.pub.gpg | apt-key add - && \
+    apt-get update && \
+    apt-get install bazel -y
+# see https://gist.github.com/PatWie/0c915d5be59a518f934392219ca65c3d
+# and https://github.com/tensorflow/tensorflow/blob/master/configure.py
+# for noninteractive tf build
+RUN git clone --depth 1 -b r1.7 https://github.com/tensorflow/tensorflow.git /usr/src/tensorflow && \
+    cd tensorflow && \
+    PYTHON_BIN_PATH=$(which python) \
+    PYTHON_LIB_PATH="$($PYTHON_BIN_PATH -c 'import site; print(site.getsitepackages()[0])')" \
+    PYTHONPATH=/usr/src/tensorflow/lib \
+    PYTHON_ARG=/usr/src/tensorflow/lib \
+    CUDA_TOOLKIT_PATH=/usr/local/cuda \
+    CUDNN_INSTALL_PATH=/usr \
+    TF_NEED_GCP=0 \
+    TF_NEED_CUDA=1 \
+    TF_CUDA_VERSION="$($CUDA_TOOLKIT_PATH/bin/nvcc --version | sed -n 's/^.*release \(.*\),.*/\1/p')" \
+    TF_CUDA_COMPUTE_CAPABILITIES=6.1,5.2,3.5 \
+    TF_NEED_HDFS=0 \
+    TF_NEED_OPENCL=0 \
+    TF_NEED_JEMALLOC=1 \
+    TF_ENABLE_XLA=0 \
+    TF_NEED_VERBS=0 \
+    TF_CUDA_CLANG=0 \
+    TF_CUDNN_VERSION="$(sed -n 's/^#define CUDNN_MAJOR\s*\(.*\).*/\1/p' $CUDNN_INSTALL_PATH/include/cudnn.h)" \
+    TF_NEED_MKL=0 \
+    TF_DOWNLOAD_MKL=0 \
+    TF_NEED_MPI=0 \
+    TF_NEED_OPENCL_SYCL=0 \
+    TF_NEED_S3=0 \
+    TF_NEED_KAFKA=0 \
+    TF_NEED_TENSORRT=0 \
+    TF_NEED_GDR=0 \
+    TF_SET_ANDROID_WORKSPACE=0 \
+    GCC_HOST_COMPILER_PATH=$(which gcc) \
+    CC_OPT_FLAGS="-march=native" ./configure && \
+    bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
 # cannot use GPUs within build process, you can also do GPU test manually:
 #   python -c 'import tensorflow as tf;sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))'
 
@@ -81,6 +119,7 @@ RUN git clone --depth 1 --recursive https://github.com/dmlc/mxnet /usr/src/mxnet
 #     make -j all
 
 COPY runner.sh /usr/src/app/runner.sh
+RUN chmod +x /usr/src/app/runner.sh
 
 WORKDIR /usr/src/app
 VOLUME /usr/src/app
