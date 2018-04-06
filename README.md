@@ -43,14 +43,14 @@ Optional packages can be installed by modifying and rebuilding Dockerfile.
 ### Pull the docker image from [DockerHub](https://registry.hub.docker.com/u/uetchy/machinelearning/)
 
 ```
-$ docker pull uetchy/machinelearning
+docker pull uetchy/machinelearning
 ```
 
 ### Launch Jupyter Notebook on current directory
 
 ```
-$ docker run --runtime=nvidia -v $PWD:/app -p 80:8888 -it uetchy/machinelearning jupyter
-$ open http://$(docker-machine ip default)
+docker run --runtime=nvidia -v $PWD:/app -p 8888:8888 -it uetchy/machinelearning jupyter
+open http://localhost:8888
 ```
 
 `default` is a Docker Machine name. you would replace with whatever you want.
@@ -60,20 +60,21 @@ $ open http://$(docker-machine ip default)
 ### Run Python REPL
 
 ```
-$ docker run --runtime=nvidia --rm -it uetchy/machinelearning python
+docker run --runtime=nvidia --rm -it uetchy/machinelearning python
 ```
 
 ### Run shell
 
 ```
-$ docker run --runtime=nvidia --rm -it uetchy/machinelearning
+docker run --runtime=nvidia --rm -it uetchy/machinelearning
 ```
 
 ### Reach entire source codes
 
 ```
-$ cd /usr/src
-$ ls
+docker run --runtime=nvidia --rm -it uetchy/machinelearning
+cd /usr/src
+ls
 ```
 
 ## Alternative Docker images
