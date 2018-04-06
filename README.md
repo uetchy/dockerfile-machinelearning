@@ -1,6 +1,6 @@
 # dockerfile-machinelearning
 
-A Dockerfile consist of major machine learning libraries, for students and researchers.
+A Dockerfile for accelerated research process consists of major machine learning libraries.
 
 ## Spec
 
@@ -16,6 +16,7 @@ A Dockerfile consist of major machine learning libraries, for students and resea
 * Jupyter
 * OpenCV 3
 * ImageMagick
+* Hyperdash
 * ...
 
 ### Deep learning packages
@@ -46,16 +47,12 @@ Optional packages can be installed by modifying and rebuilding Dockerfile.
 docker pull uetchy/machinelearning
 ```
 
-### Launch Jupyter Notebook on current directory
+### Launch Jupyter Lab on current directory
 
 ```
 docker run --runtime=nvidia -v $PWD:/app -p 8888:8888 -it uetchy/machinelearning jupyter
 open http://localhost:8888
 ```
-
-`default` is a Docker Machine name. you would replace with whatever you want.
-
-> Docker Remote API users beware: Volume mounting is not available which is connected from Remote API
 
 ### Run Python REPL
 
