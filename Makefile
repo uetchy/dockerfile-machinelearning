@@ -2,7 +2,6 @@ default: build
 
 build:
 	docker build -t uetchy/machinelearning .
-	docker run --runtime=nvidia --rm -it uetchy/machinelearning
 
 run:
 	docker run --runtime=nvidia --rm -it uetchy/machinelearning

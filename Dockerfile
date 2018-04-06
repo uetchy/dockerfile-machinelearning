@@ -49,9 +49,10 @@ RUN apt-get install openjdk-8-jdk -y && \
     apt-get install bazel -y
 # see https://gist.github.com/PatWie/0c915d5be59a518f934392219ca65c3d
 # and https://github.com/tensorflow/tensorflow/blob/master/configure.py
+# and https://github.com/tensorflow/tensorflow/blob/master/tools/bazel.rc
 # for noninteractive tf build
 RUN git clone --depth 1 -b r1.7 https://github.com/tensorflow/tensorflow.git /usr/src/tensorflow && \
-    cd tensorflow && \
+    cd /usr/src/tensorflow && \
     PYTHON_BIN_PATH=$(which python) \
     PYTHON_LIB_PATH="$($PYTHON_BIN_PATH -c 'import site; print(site.getsitepackages()[0])')" \
     PYTHONPATH=/usr/src/tensorflow/lib \
@@ -80,9 +81,11 @@ RUN git clone --depth 1 -b r1.7 https://github.com/tensorflow/tensorflow.git /us
     TF_SET_ANDROID_WORKSPACE=0 \
     GCC_HOST_COMPILER_PATH=$(which gcc) \
     CC_OPT_FLAGS="-march=native" ./configure && \
-    bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
+    bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package && \
+    bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg && \
+    pip install /tmp/tensorflow_pkg/tensorflow-1.7.0-cp36-cp36m-linux_x86_64.whl
 # cannot use GPUs within build process, you can also do GPU test manually:
-#   python -c 'import tensorflow as tf;sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))'
+# python -c 'import tensorflow as tf;sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))'
 
 # Keras
 RUN git clone --depth 1 https://github.com/fchollet/keras.git /usr/src/keras && \
@@ -90,7 +93,7 @@ RUN git clone --depth 1 https://github.com/fchollet/keras.git /usr/src/keras && 
 
 # Chainer
 RUN git clone --depth 1 https://github.com/pfnet/chainer.git /usr/src/chainer && \
-    install chainer cupy
+    pip install chainer cupy
 
 # PyTorch
 RUN git clone --depth 1 https://github.com/pytorch/tutorials.git /usr/src/pytorch-tutorials && \
@@ -99,7 +102,7 @@ RUN git clone --depth 1 https://github.com/pytorch/tutorials.git /usr/src/pytorc
 
 # MXNet
 RUN git clone --depth 1 --recursive https://github.com/dmlc/mxnet /usr/src/mxnet && \
-    conda install mxnet-cu90
+    pip install mxnet-cu90
 
 # Caffe2
 # RUN git clone --depth 1 --recursive https://github.com/caffe2/caffe2.git /usr/src/caffe2 && \
@@ -117,6 +120,13 @@ RUN git clone --depth 1 --recursive https://github.com/dmlc/mxnet /usr/src/mxnet
 #     -DUSE_NCCL=1 \
 #     -DBLAS=open .. && \
 #     make -j all
+
+# XGBoost
+RUN git clone --depth 1 --recursive https://github.com/dmlc/xgboost /usr/src/xgboost && \
+    mkdir /usr/src/xgboost/build && cd /usr/src/xgboost/build && \
+    cmake .. -DUSE_CUDA=ON && \
+    make -j4 && \
+    cd ../python-package && python setup.py install
 
 COPY runner.sh /usr/src/app/runner.sh
 RUN chmod +x /usr/src/app/runner.sh

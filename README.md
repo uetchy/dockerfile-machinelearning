@@ -26,6 +26,7 @@ A Dockerfile for accelerated research process consists of major machine learning
 * Chainer
 * PyTorch
 * MXnet
+* XGBoost
 * Caffe2 (optional)
 * Caffe (optional)
 * Torch7 (optional)
