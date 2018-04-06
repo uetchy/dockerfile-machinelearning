@@ -2,40 +2,43 @@
 
 A Dockerfile consist of major machine learning libraries, for students and researchers.
 
-## Features
+## Spec
 
-- Ubuntu 16.04
-- Python 3.6 on Miniconda3
-- GPU accelerated (CUDA 8.0 + cuDNN 5)
+* Ubuntu 16.04
+* Python 3.6 with Miniconda3
+* GPU accelerated (CUDA 9.0, cuDNN 7)
 
-### General
+### General packages
 
-- numpy, scipy, scikit-learn, ...
-- Jupyter
-- HDF5
-- OpenCV 3
-- ImageMagick
-- ...
+* numpy
+* scipy
+* scikit-learn
+* Jupyter
+* OpenCV 3
+* ImageMagick
+* ...
 
-### Deep Learning
+### Deep learning packages
 
-- TensorFlow
-- Theano
-- Keras
-- PyTorch
-- Chainer
-- Torch7
-- Caffe
-- Caffe2
+* TensorFlow
+* Keras
+* Chainer
+* PyTorch
+* MXnet
+* Caffe2 (optional)
+* Caffe (optional)
+* Torch7 (optional)
+
+Optional packages can be installed by modifying and rebuilding Dockerfile.
 
 ## Install
 
 ### System Requirements
 
-- Docker
-- CUDA-enabled GPUs
-- CUDA Toolkit
-- nvidia-docker
+* Docker
+* CUDA-enabled GPUs
+* CUDA Toolkit
+* nvidia-docker (https://github.com/NVIDIA/nvidia-docker)
 
 ### Pull the docker image from [DockerHub](https://registry.hub.docker.com/u/uetchy/machinelearning/)
 
@@ -46,7 +49,7 @@ $ docker pull uetchy/machinelearning
 ### Launch Jupyter Notebook on current directory
 
 ```
-$ docker run -v $PWD:/app -p 80:8888 -it uetchy/machinelearning jupyter
+$ docker run --runtime=nvidia -v $PWD:/app -p 80:8888 -it uetchy/machinelearning jupyter
 $ open http://$(docker-machine ip default)
 ```
 
@@ -57,13 +60,13 @@ $ open http://$(docker-machine ip default)
 ### Run Python REPL
 
 ```
-$ docker run -it uetchy/machinelearning python
+$ docker run --runtime=nvidia --rm -it uetchy/machinelearning python
 ```
 
 ### Run shell
 
 ```
-$ docker run -it uetchy/machinelearning
+$ docker run --runtime=nvidia --rm -it uetchy/machinelearning
 ```
 
 ### Reach entire source codes
@@ -75,6 +78,6 @@ $ ls
 
 ## Alternative Docker images
 
-- [Caffe](https://github.com/BVLC/caffe/tree/master/docker)
-- [Caffe2](https://caffe2.ai/docs/getting-started.html?platform=ubuntu&configuration=docker)
-- [TensorFlow](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/README.md)
+* [Caffe](https://github.com/BVLC/caffe/tree/master/docker)
+* [Caffe2](https://caffe2.ai/docs/getting-started.html?platform=ubuntu&configuration=docker)
+* [TensorFlow](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/README.md)
