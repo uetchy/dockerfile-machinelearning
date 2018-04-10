@@ -14,11 +14,15 @@ RUN apt-get install -y \
 
 # CNMeM
 RUN git clone --depth 1 https://github.com/NVIDIA/cnmem.git /usr/src/cnmem && \
-    mkdir /usr/src/cnmem/build && cd /usr/src/cnmem/build && cmake .. && make -j install
+    mkdir /usr/src/cnmem/build && \
+    cd /usr/src/cnmem/build && \
+    cmake .. && \
+    make -j install
 
 # NCCL
 RUN git clone --depth 1 https://github.com/NVIDIA/nccl.git /usr/src/nccl && \
-    cd /usr/src/nccl && make -j install
+    cd /usr/src/nccl && \
+    make -j install
 
 RUN ldconfig
 
@@ -28,13 +32,12 @@ ENV LB_LIBRARY_PATH /opt/conda/lib:$LB_LIBRARY_PATH
 RUN curl -Ls https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/install-miniconda.sh && \
     /bin/bash /tmp/install-miniconda.sh -b -p /opt/conda && \
     conda update -n base conda && \
-    conda config --append channels conda-forge && \
     conda update --all -y
 
 # Basic dependencies
-RUN conda install -y bzip2 glib readline mkl openblas numpy scipy hdf5 \
+RUN conda install -y readline mkl openblas numpy scipy hdf5 \
     pillow matplotlib cython pandas gensim protobuf \
-    lmdb leveldb boost glog gflags jupyter jupyterlab
+    lmdb leveldb boost jupyterlab
 RUN pip install pydot_ng nnpack h5py scikit-learn scikit-image hyperdash
 
 # OpenCV
@@ -55,8 +58,6 @@ RUN git clone --depth 1 -b r1.7 https://github.com/tensorflow/tensorflow.git /us
     cd /usr/src/tensorflow && \
     PYTHON_BIN_PATH=$(which python) \
     PYTHON_LIB_PATH="$($PYTHON_BIN_PATH -c 'import site; print(site.getsitepackages()[0])')" \
-    PYTHONPATH=/usr/src/tensorflow/lib \
-    PYTHON_ARG=/usr/src/tensorflow/lib \
     CUDA_TOOLKIT_PATH=/usr/local/cuda \
     CUDNN_INSTALL_PATH=/usr \
     TF_NEED_GCP=0 \
