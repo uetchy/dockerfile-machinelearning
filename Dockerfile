@@ -6,8 +6,7 @@ ENV CUDA_HOME /usr/local/cuda
 # RUN locale-gen "en_US.UTF-8" && dpkg-reconfigure locales
 
 # System dependencies
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
     build-essential curl wget git cmake vim pkg-config unzip libgtk2.0-dev \
     imagemagick graphviz > /dev/null
 # libgtk2.0-dev -> OpenCV

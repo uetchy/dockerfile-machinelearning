@@ -11,7 +11,7 @@ case "$1" in
     ;;
   test)
     python -c "import tensorflow as tf; print('TensorFlow', tf.__version__); tf.Session()"
-    python -c "import chainer; print(chainer.cuda.available, chainer.cuda.cudnn_enabled)"
+    python -c "import chainer; chainer.print_runtime_info()"
     ;;
   *)
     $@

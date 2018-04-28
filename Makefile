@@ -2,6 +2,7 @@ default: build test
 
 build:
 	docker build -t uetchy/machinelearning .
+	docker build -t uetchy/machinelearning:chainer ./chainer
 
 run:
 	docker run --runtime=nvidia --rm -it uetchy/machinelearning
