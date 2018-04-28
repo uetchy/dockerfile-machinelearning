@@ -43,26 +43,26 @@ RUN curl -Ls https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.
 
 # Basic dependencies
 RUN conda install -y \
-    cython \
-    gensim \
     hdf5 \
-    jupyterlab \
-    matplotlib \
     mkl \
-    numpy \
     openblas \
-    pandas \
-    pillow \
     protobuf \
-    readline \
-    scipy
+    readline
 RUN pip install -U \
+    cython \
     h5py \
     hyperdash \
+    jupyterlab \
+    matplotlib \
     nnpack \
+    numpy \
+    pandas \
+    pillow \
+    pip \
     pydot_ng \
     scikit-image \
-    scikit-learn
+    scikit-learn \
+    scipy
 
 # OpenCV
 RUN conda install opencv3 -c menpo -y
