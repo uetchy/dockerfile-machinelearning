@@ -1,92 +1,76 @@
 # dockerfile-machinelearning
 
-A Dockerfile for accelerated research process consists of major machine learning libraries.
+A Dockerfile for accelerated research process, consists of major machine learning libraries.
 
-## Spec
+- [DockerHub](https://registry.hub.docker.com/u/uetchy/machinelearning/)
 
-* Ubuntu 16.04
-* Python 3.6 with Miniconda3
-* GPU accelerated (CUDA 9.0, cuDNN 7)
+## Features
 
-### General packages
+- Ubuntu 18.04
+- Python 3.6 (Miniconda3)
+- GPU accelerated (CUDA 10.0, cuDNN 7)
+- Jupyter Lab enabled
+- OpenCV 3.0 included
+- Hyperdash
 
-* numpy
-* scipy
-* scikit-learn
-* Jupyter
-* OpenCV 3
-* ImageMagick
-* Hyperdash
-* ...
+## Available Deep Learning Frameworks
 
-### Deep learning packages
-
-* TensorFlow
-* Keras
-* Chainer
-* PyTorch
-* MXnet
-* XGBoost
-* Caffe2 (optional)
-* Caffe (optional)
-* Torch7 (optional)
-
-Optional packages can be installed by modifying and rebuilding Dockerfile.
+- PyTorch `uetchy/machinelearning:pytorch`
+- TensorFlow `uetchy/machinelearning:tensorflow`
+- Chainer `uetchy/machinelearning:chainer`
+- MXnet `uetchy/machinelearning:mxnet`
+- XGBoost `uetchy/machinelearning:xgboost`
 
 ## Install
 
 ### System Requirements
 
-* Docker
-* CUDA-enabled GPUs
-* CUDA Toolkit
-* nvidia-docker (https://github.com/NVIDIA/nvidia-docker)
+- Docker
+- CUDA-enabled GPUs
+- CUDA Toolkit
+- nvidia-docker2 (https://github.com/NVIDIA/nvidia-docker)
 
 ### Pull the docker image from [DockerHub](https://registry.hub.docker.com/u/uetchy/machinelearning/)
 
-```
-docker pull uetchy/machinelearning
+```bash
+docker pull uetchy/machinelearning:tensorflow
+docker pull uetchy/machinelearning:pytorch
+docker pull uetchy/machinelearning:chainer
+...
 ```
 
 ### Launch Jupyter Lab on current directory
 
-```
-docker run --runtime=nvidia -v $PWD:/app -p 8888:8888 -it uetchy/machinelearning jupyter
+```bash
+docker run --runtime=nvidia -v $PWD:/app -p 8888:8888 -it uetchy/machinelearning:pytorch jupyter
 open http://localhost:8888
 ```
 
-### Run Python REPL
+### Open Python REPL
 
-```
-docker run --runtime=nvidia --rm -it uetchy/machinelearning python
-```
-
-### Run shell
-
-```
-docker run --runtime=nvidia --rm -it uetchy/machinelearning
+```bash
+docker run --runtime=nvidia --rm -it uetchy/machinelearning:base python
 ```
 
-### Reach entire source codes
+### Run Bash Shell
 
-```
-docker run --runtime=nvidia --rm -it uetchy/machinelearning
-cd /usr/src
-ls
+```bash
+docker run --runtime=nvidia --rm -it uetchy/machinelearning:tensorflow
 ```
 
-## Alternative Docker images
+## List of Docker images for Data Science
 
-* [Caffe](https://github.com/BVLC/caffe/tree/master/docker)
-* [Caffe2](https://caffe2.ai/docs/getting-started.html?platform=ubuntu&configuration=docker)
-* [TensorFlow](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/docker/README.md)
+- [TensorFlow](https://hub.docker.com/r/tensorflow/tensorflow)
+- [Caffe2](https://hub.docker.com/r/caffe2ai/caffe2)
+- [MXNet](https://hub.docker.com/u/mxnet)
+- [Caffe](https://github.com/BVLC/caffe/tree/master/docker)
 
 # Contribution
 
-PRs are welcome.
+PRs are accepted.
 
 ## Contributors
 
- - Yasuaki Uechi
- - UpmostScarab
- - cyrusmvahid
+- Yasuaki Uechi
+- UpmostScarab
+- cyrusmvahid
