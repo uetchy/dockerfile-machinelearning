@@ -19,15 +19,6 @@ RUN apt-get update && apt-get install -y \
   graphviz
 # libgtk2.0-dev is for OpenCV
 
-# CNMeM
-RUN git clone --depth 1 https://github.com/NVIDIA/cnmem.git /usr/src/cnmem && \
-  mkdir /usr/src/cnmem/build && cd /usr/src/cnmem/build && \
-  cmake .. && make -j install
-
-# NCCL
-RUN git clone --depth 1 https://github.com/NVIDIA/nccl.git /usr/src/nccl && \
-  cd /usr/src/nccl && make -j install
-
 RUN ldconfig
 
 # Miniconda3
@@ -63,6 +54,19 @@ RUN pip install \
   scikit-learn \
   scikit-image \
   hyperdash
+
+# CNMeM
+RUN git clone --depth 1 https://github.com/NVIDIA/cnmem.git /usr/src/cnmem && \
+  mkdir /usr/src/cnmem/build && cd /usr/src/cnmem/build && \
+  cmake .. && make -j install
+
+# NCCL
+RUN git clone --depth 1 https://github.com/NVIDIA/nccl.git /usr/src/nccl && \
+  cd /usr/src/nccl && make -j install
+
+# Apex
+RUN git clone --depth 1 https://github.com/NVIDIA/apex.git /usr/src/apex && \
+  cd /usr/src/apex && python setup.py install --cuda_ext --cpp_ext
 
 # OpenCV
 RUN conda install opencv3 -c menpo -y
