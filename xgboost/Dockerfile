@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-cudnn7-devel
+FROM uetchy/machine-learning:latest
 
 # XGBoost
 RUN git clone --depth 1 --recursive https://github.com/dmlc/xgboost /usr/src/xgboost && \
