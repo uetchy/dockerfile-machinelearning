@@ -1,9 +1,7 @@
-FROM nvidia/cuda:9.0-cudnn7-devel
+FROM nvidia/cuda:10.0-cudnn7-devel
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV CUDA_HOME /usr/local/cuda
-# ENV LANG C.UTF-8
-# RUN locale-gen "en_US.UTF-8" && dpkg-reconfigure locales
 
 # System dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \

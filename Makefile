@@ -5,8 +5,6 @@ build:
 	docker build -t uetchy/ml:tensorflow ./tensorflow
 	docker build -t uetchy/ml:pytorch ./pytorch
 	docker build -t uetchy/ml:chainer ./chainer
-	docker build -t uetchy/ml:mxnet ./mxnet
-	docker build -t uetchy/ml:xgboost ./xgboost
 
 test: build
 	docker run --runtime=nvidia --rm -it uetchy/ml:tensorflow test

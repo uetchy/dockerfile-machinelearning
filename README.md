@@ -8,10 +8,10 @@ A Dockerfile for accelerated research process, consists of major machine learnin
 
 - Ubuntu 18.04
 - Python 3.6 (Miniconda 3)
-- GPU accelerated (CUDA 9.0, cuDNN 7)
+- GPU accelerated (CUDA 10.0, cuDNN 7)
 - NCCL, CNMeM, Apex (PyTorch only) activated
 - Jupyter and OpenCV 3.0 included
-- Additional packages (Tensorboard(X), Hyperdash, etc)
+- Additional packages (Tensorboard, Hyperdash, etc)
 
 ## Available Deep Learning Frameworks
 
@@ -27,6 +27,7 @@ A Dockerfile for accelerated research process, consists of major machine learnin
 
 - Docker
 - CUDA-enabled GPUs
+- CUDA Driver
 - CUDA Toolkit
 - nvidia-docker2 (https://github.com/NVIDIA/nvidia-docker)
 
