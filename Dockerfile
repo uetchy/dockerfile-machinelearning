@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-cudnn7-devel
+FROM nvidia/cuda:9.0-cudnn7-devel
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV CUDA_HOME /usr/local/cuda
@@ -6,8 +6,9 @@ ENV CUDA_HOME /usr/local/cuda
 # RUN locale-gen "en_US.UTF-8" && dpkg-reconfigure locales
 
 # System dependencies
-RUN apt-get update && apt-get install -y \
-  build-essential curl \
+RUN apt-get update && apt-get install --no-install-recommends -y \
+  build-essential \
+  curl \
   wget \
   git \
   cmake \
@@ -21,7 +22,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN ldconfig
 
-# Miniconda3
+# Miniconda 3
 ENV PATH /opt/conda/bin:$PATH
 ENV LB_LIBRARY_PATH /opt/conda/lib:$LB_LIBRARY_PATH
 RUN curl -Ls https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/install-miniconda.sh && \
@@ -29,47 +30,46 @@ RUN curl -Ls https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.
   conda update -n base conda && \
   conda update --all -y
 
-# Basic dependencies
-RUN conda install -y \
-  readline \
-  cython \
-  mkl \
-  openblas \
-  boost \
-  hdf5 \
-  lmdb \
-  leveldb \
-  protobuf \
-  matplotlib \
-  pillow \
-  numpy \
-  scipy \
-  pandas \
-  gensim \
-  jupyterlab
-RUN pip install \
-  pydot_ng \
-  nnpack \
-  h5py \
-  scikit-learn \
-  scikit-image \
-  hyperdash
-
-# CNMeM
+# CNMeM - A simple memory manager for CUDA designed to help Deep Learning frameworks manage memory
 RUN git clone --depth 1 https://github.com/NVIDIA/cnmem.git /usr/src/cnmem && \
   mkdir /usr/src/cnmem/build && cd /usr/src/cnmem/build && \
   cmake .. && make -j install
 
-# NCCL
+# NCCL - Optimized primitives for collective multi-GPU communication
 RUN git clone --depth 1 https://github.com/NVIDIA/nccl.git /usr/src/nccl && \
   cd /usr/src/nccl && make -j install
 
-# Apex
-RUN git clone --depth 1 https://github.com/NVIDIA/apex.git /usr/src/apex && \
-  cd /usr/src/apex && python setup.py install --cuda_ext --cpp_ext
+# Basic dependencies
+RUN conda install -y \
+  boost \
+  cython \
+  gensim \
+  hdf5 \
+  jupyterlab \
+  leveldb \
+  lmdb \
+  matplotlib \
+  mkl \
+  numpy \
+  openblas \
+  pandas \
+  pillow \
+  protobuf \
+  readline \
+  scipy
+
+RUN pip install \
+  h5py \
+  hyperdash \
+  nnpack \
+  pydot_ng \
+  scikit-image \
+  scikit-learn
 
 # OpenCV
 RUN conda install opencv3 -c menpo -y
 
-WORKDIR /project
-VOLUME /project
+WORKDIR /workspace
+VOLUME /workspace
+
+RUN ln -s /usr/src /root/src && ln -s /project /root/project

@@ -1,23 +1,24 @@
 default: build
 
 build:
-	docker build -t uetchy/machinelearning:base .
-	docker build -t uetchy/machinelearning:tensorflow ./tensorflow
-	docker build -t uetchy/machinelearning:pytorch ./pytorch
-	docker build -t uetchy/machinelearning:chainer ./chainer
-	docker build -t uetchy/machinelearning:mxnet ./mxnet
-	docker build -t uetchy/machinelearning:xgboost ./xgboost
+	docker build -t uetchy/ml:base .
+	docker build -t uetchy/ml:tensorflow ./tensorflow
+	docker build -t uetchy/ml:pytorch ./pytorch
+	docker build -t uetchy/ml:chainer ./chainer
+	docker build -t uetchy/ml:mxnet ./mxnet
+	docker build -t uetchy/ml:xgboost ./xgboost
+
+test: build
+	docker run --runtime=nvidia --rm -it uetchy/ml:tensorflow test
 
 publish: build
-	docker push uetchy/machinelearning:base
-	docker push uetchy/machinelearning:tensorflow
-	docker push uetchy/machinelearning:pytorch
-	docker push uetchy/machinelearning:chainer
-	docker push uetchy/machinelearning:mxnet
-	docker push uetchy/machinelearning:xgboost
+	docker push uetchy/ml:base
+	docker push uetchy/ml:tensorflow
+	docker push uetchy/ml:pytorch
+	docker push uetchy/ml:chainer
 
 bash:
-	docker run --runtime=nvidia --rm -it uetchy/machinelearning:base bash
+	docker run --runtime=nvidia --rm -it uetchy/ml:base bash
 
 jupyter:
-	docker run --runtime=nvidia --rm -p 8888:8888 -it uetchy/machinelearning:base jupyter
+	docker run --runtime=nvidia --rm -p 8888:8888 -it uetchy/ml:base jupyter
